@@ -1,0 +1,264 @@
+/* General */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #fdfcfb;
+  color: #333;
+}
+
+.shop-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 1rem;
+}
+
+/* Top Bar */
+.top-bar {
+  background: #2c2c2c;
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  background: linear-gradient(to bottom, #f3e5ab, #fdfcfb);
+  padding: 3rem 1rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #3e2f1c;
+}
+
+.hero span {
+  color: #c97e2c;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 1rem auto;
+  color: #555;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.hero-buttons button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #c97e2c;
+  color: white;
+  font-weight: bold;
+}
+
+.hero-buttons .outline {
+  background: transparent;
+  border: 2px solid #c97e2c;
+  color: #c97e2c;
+}
+
+/* Categories */
+.categories {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.category {
+  text-align: center;
+  padding: 1rem;
+  width: 110px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  cursor: default;
+}
+
+/* Section title */
+.section-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+/* Product List */
+ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+li:hover {
+  transform: translateY(-4px);
+}
+
+.product-image {
+  width: 100%;
+  max-width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+li strong {
+  font-size: 1.2rem;
+  color: #2e2e2e;
+}
+
+li p {
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+li small {
+  color: #999;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+li button {
+  margin: 0.25rem;
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+li button:last-child {
+  background: #e53935;
+}
+
+/* Add Product Header */
+.add-product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #43a047;
+}
+
+/* Form */
+form {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+form input,
+form textarea {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+form button {
+  width: fit-content;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 6px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #388e3c;
+}
+
+/* Modal Styling */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  position: rel
+}
+.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  object-fit: cover;
+}
+
+.product-image-placeholder {
+  width: 100px;
+  height: 100px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.8rem;
+  border-radius: 8px;
+}
