@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { getAllProducts, deleteProduct } from '../services/productService';
 import { ProductForm } from './ProductForm';
 import '../style/shop.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export function ProductList() {
+export function ProductList({ onAddToCart }) {
   const [products, setProducts] = useState([]);
   const [editing, setEditing] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showCartAlert, setShowCartAlert] = useState(false);
+  const [addedProductName, setAddedProductName] = useState('');
 
   const load = async () => {
     const items = await getAllProducts();
@@ -22,6 +25,13 @@ export function ProductList() {
   const handleEdit = (product) => {
     setEditing(product);
     setShowModal(true);
+  };
+
+  const handleAddToCart = (product) => {
+    if (onAddToCart) onAddToCart(product);
+    setAddedProductName(product.name);
+    setShowCartAlert(true);
+    setTimeout(() => setShowCartAlert(false), 1500);
   };
 
   return (
@@ -60,11 +70,17 @@ export function ProductList() {
               }}>
                 Delete
               </button>
+              {onAddToCart && (
+                <button className="cart-btn" onClick={() => handleAddToCart(p)}>
+                  Add to Cart 🛒
+                </button>
+              )}
             </div>
           </li>
         ))}
       </ul>
 
+      {/* Add/Edit Modal */}
       {showModal && (
         <div className="modal-backdrop" onClick={() => setShowModal(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -74,6 +90,13 @@ export function ProductList() {
               Cancel
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Alert Dialog */}
+      {showCartAlert && (
+        <div className="alert-dialog">
+          ✅ <strong>{addedProductName}</strong> added to cart!
         </div>
       )}
     </div>
