@@ -11,20 +11,36 @@ export function ProductList({ onAddToCart }) {
   const [showCartAlert, setShowCartAlert] = useState(false);
   const [addedProductName, setAddedProductName] = useState('');
 
-  const load = async () => {
-    const items = await getAllProducts();
-    setProducts(items);
-    setEditing(null);
-    setShowModal(false);
+  const loadProducts = async () => {
+    try {
+      const items = await getAllProducts();
+      setProducts(items);
+    } catch (error) {
+      console.error("Failed to load products:", error);
+    }
   };
 
   useEffect(() => {
-    load();
+    loadProducts();
   }, []);
+
+  const handleAdd = () => {
+    setEditing(null);
+    setShowModal(true);
+  };
 
   const handleEdit = (product) => {
     setEditing(product);
     setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteProduct(id);
+      await loadProducts(); // Refresh after delete
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
   };
 
   const handleAddToCart = (product) => {
@@ -34,14 +50,16 @@ export function ProductList({ onAddToCart }) {
     setTimeout(() => setShowCartAlert(false), 1500);
   };
 
+  const handleSave = async () => {
+    await loadProducts(); // Refresh after save
+    setShowModal(false);  // Close modal
+  };
+
   return (
     <div className="product-list-container">
       <div className="add-product-header">
         <h2>Products</h2>
-        <button className="add-btn" onClick={() => {
-          setEditing(null);
-          setShowModal(true);
-        }}>
+        <button className="add-btn" onClick={handleAdd}>
           + Add Product
         </button>
       </div>
@@ -59,20 +77,20 @@ export function ProductList({ onAddToCart }) {
             <div className="product-info">
               <strong>{p.name}</strong>
               <p>{p.description}</p>
-              <small>${p.price}</small>
+              <small>₱{p.price}</small>
               {p.details && <small>{p.details}</small>}
+              <p><strong>In Stock:</strong> {p.quantity || 0}</p>
             </div>
             <div className="product-actions">
               <button onClick={() => handleEdit(p)}>Edit</button>
-              <button onClick={async () => {
-                await deleteProduct(p.id);
-                load();
-              }}>
-                Delete
-              </button>
+              <button onClick={() => handleDelete(p.id)}>Delete</button>
               {onAddToCart && (
-                <button className="cart-btn" onClick={() => handleAddToCart(p)}>
-                  Add to Cart 🛒
+                <button
+                  className="cart-btn"
+                  onClick={() => handleAddToCart(p)}
+                  disabled={p.quantity <= 0}
+                >
+                  {p.quantity > 0 ? 'Add to Cart 🛒' : 'Out of Stock'}
                 </button>
               )}
             </div>
@@ -80,12 +98,12 @@ export function ProductList({ onAddToCart }) {
         ))}
       </ul>
 
-      {/* Add/Edit Modal */}
+      {/* Modal */}
       {showModal && (
-        <div className="modal-backdrop" onClick={() => setShowModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="custom-modal-backdrop" onClick={() => setShowModal(false)}>
+          <div className="custom-modal" onClick={(e) => e.stopPropagation()}>
             <h3>{editing ? 'Edit Product' : 'Add Product'}</h3>
-            <ProductForm existing={editing} onSaved={load} />
+            <ProductForm existing={editing} onSaved={handleSave} />
             <button className="close-btn" onClick={() => setShowModal(false)}>
               Cancel
             </button>
@@ -93,7 +111,7 @@ export function ProductList({ onAddToCart }) {
         </div>
       )}
 
-      {/* Alert Dialog */}
+      {/* Cart Alert */}
       {showCartAlert && (
         <div className="alert-dialog">
           ✅ <strong>{addedProductName}</strong> added to cart!
